@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.wave{
+			position: absolute;
+			width: 100%;
+		}
+		.w1{
+			background-image: url(wave3c.png);
+			height: 200px;
+			top: 150px;
+		}
+		.w2{
+			background-image: url(wave2c.png);
+			height: 250px;
+			top: 300px;
+		}
+		.w3{
+			background-image: url(wave1c.png);
+			height: 300px;
+			top: 500px;
+		}
+		.curt{
+			position: absolute;
+			width: 300px;
+			height: 900px;
+			top: 0px;
+		}
+		.cl{
+			background-image: url(1s.png);
+			background-size: 100% 100%;
+			left: 0px;
+		}
+		.cr{
+			background-image: url(2s.png);
+			background-size: 100% 100%;
+			right: 0px;
+		}
+		.btn{
+			margin-top: 50px;
+			background: red;
+			width: 150px;
+			height: 50px;
+			border-radius: 20px;
+		}
+		.duck{
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			z-index: 2;
+			background-size: 100% 100%;
+		}
+		.scorebrd{
+			position: absolute;
+			top: 50px;
+			left: 884px;
+			width: 150px;
+			height: 50px;
+			border-radius: 20px;
+			border: 1px;
+			background: #38B09D;
+			display: none;
+		}
+	</style>
+</head>
+<body style="text-align: center;">
+	<button class="btn">Начать игру</button>
+	<div class="scorebrd score">Score: 0/10</div>
+	<div class="wave w1">
+		
+	</div>
+	<div class="wave w2">
+		
+	</div>
+	<div class="wave w3">
+		
+	</div>
+	<div class="curt cl">
+		
+	</div>
+	<div class="curt cr">
+		
+	</div>
+<script type="text/javascript">
+	let createDucks
+	let score = 0
+	let sc = document.querySelector(".score")
+	let btn = document.querySelector(".btn")
+	let topP = [150,300,500]
+	//let bg = ["url(1.png)","url(2.png)","url(3.png)"]
+	let scorebrd = document.querySelector(".scorebrd")
+	let createDuck = function(){
+		let duck = document.createElement("div")
+		document.body.appendChild(duck)
+		duck.classList.add("duck")
+		duck.style.left = random(1825) + "px"	
+		duck.style.top = topP[random(2)] + "px"
+		//duck.style.backgroundImage = bg[random(2)]
+		if(random(2)==0){
+			duck.style.backgroundImage = "url(c.jpg)"
+			duck.name = "good"
+		} else if(random(2)==1){
+			duck.style.backgroundImage = "url(d.jpg)"
+			duck.name = "bad"
+		} else if(random(2)==2){
+			duck.style.backgroundImage = "url(a.png)"
+			duck.name = "norm"
+		}
+		
+		duck.onclick = function(){
+			duck.style.display = "none"
+			if(duck.name=="good"){
+				score = score + 2
+				sc.innerHTML = "Score: " + score + "/10"
+			} else if(duck.name=="bad"){
+				score = score - 1
+				sc.innerHTML = "Score: " + score + "/10"
+			} else if(duck.name=="norm"){
+				score = score + 1
+				sc.innerHTML = "Score: " + score + "/10"
+			}
+		}
+	}
+	let finish = function(){
+		if (score>10) {
+			alert("Ты победил")
+			clearInterval(createDucks)
+		} else if (score<10) {
+			alert("Тебя заджихадили")
+			clearInterval(createDucks)
+		}
+	}
+	let random = function(arg){
+		let rand = Math.random() * arg
+		let round = Math.round(rand)
+		return round
+	}
+	btn.onclick = function(){
+		createDucks = setInterval(createDuck, 500)
+		btn.style.display = "none"
+		scorebrd.style.display = "block"
+		setTimeout(finish, 10000)
+	}
+</script>
+</body>
+</html>
